@@ -71,9 +71,10 @@
         android:text="Create Account"
         android:textColor="#06c200"
         android:textStyle="bold"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:layout_gravity="center"
         android:layout_marginBottom="8dp"
+        android:layout_marginTop="15dp"
         android:clickable="true"/>
 
     <!-- Guest Login -->
@@ -82,7 +83,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Continue as Guest"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:textColor="@android:color/darker_gray"
         android:textStyle="bold"
         android:layout_gravity="center"

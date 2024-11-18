@@ -1,11 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="#202020"
-    android:layout_gravity="center"
-    android:id="@+id/main">
+    android:background="@color/background_cream"
+    android:layout_gravity="center">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,9 +14,9 @@
             android:id="@+id/textAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add"
+            android:text="Add Your Pet"
             android:layout_gravity="center"
-            android:textColor="@color/background_cream"
+            android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="28sp"
             android:fontFamily="sans-serif-medium"
@@ -36,9 +34,11 @@
                 android:id="@+id/img_profile_picture"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:layout_marginEnd="16dp"
                 android:src="@drawable/ic_add_photo"
-                android:background="@drawable/rounded_edittext"
                 android:scaleType="centerCrop"
+                android:background="@drawable/rounded_shape"
+                android:clipToOutline="true"
                 android:contentDescription="Profile Picture" />
 
             <Button
@@ -54,135 +54,129 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="#303030"
+            android:background="#ffe9e0"
             android:padding="16dp"
             android:layout_marginBottom="16dp"
             android:elevation="4dp">
 
-            <!-- Name -->
             <EditText
                 android:id="@+id/petName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Name: "
-                android:textColor="#FFFFFF"
+                android:textColor="@color/black"
                 android:textColorHint="#BBBBBB"
                 android:textSize="18sp"
                 android:backgroundTint="#BBBBBB"
                 android:inputType="textPersonName"
                 android:padding="8dp" />
 
-            <!-- Species -->
-            <EditText
+            <Spinner
                 android:id="@+id/petSpecies"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Species: "
-                android:textColor="#FFFFFF"
-                android:textColorHint="#BBBBBB"
-                android:textSize="18sp"
-                android:backgroundTint="#BBBBBB"
-                android:inputType="text"
-                android:padding="8dp" />
+                android:entries="@array/species_array"
+                android:padding="8dp"
+                android:backgroundTint="#BBBBBB" />
 
-            <!-- Breed -->
             <EditText
                 android:id="@+id/petBreed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Breed: "
-                android:textColor="#FFFFFF"
+                android:textColor="@color/black"
                 android:textColorHint="#BBBBBB"
                 android:textSize="16sp"
                 android:backgroundTint="#BBBBBB"
                 android:inputType="text"
                 android:padding="8dp" />
-        </LinearLayout>
 
-        <TextView
-            android:id="@+id/textLoginTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Profile"
-            android:textColor="@color/ic_launcher_background"
-            android:textSize="20sp"
-            android:fontFamily="sans-serif-medium"
-            android:letterSpacing="0.1"
-            android:layout_marginBottom="10dp" />
-
-        <!-- Other Profile Options -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="#303030"
-            android:padding="16dp"
-            android:layout_marginBottom="16dp"
-            android:elevation="20dp">
-
-            <!-- Date of Birth -->
-            <EditText
-                android:id="@+id/petDateOfBirth"
+            <Button
+                android:id="@+id/btn_date_of_birth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Date of Birth: "
-                android:textColor="#FFFFFF"
-                android:textColorHint="#BBBBBB"
-                android:textSize="18sp"
-                android:backgroundTint="#BBBBBB"
-                android:inputType="date"
-                android:padding="8dp" />
+                android:text="Select Date of Birth"
+                android:layout_marginTop="8dp" />
 
-            <!-- Color -->
             <EditText
                 android:id="@+id/petColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Color: "
-                android:textColor="#FFFFFF"
+                android:textColor="@color/black"
                 android:textColorHint="#BBBBBB"
                 android:textSize="18sp"
                 android:backgroundTint="#BBBBBB"
                 android:inputType="text"
                 android:padding="8dp" />
 
-            <!-- Weight -->
             <EditText
                 android:id="@+id/petWeight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Weight: "
-                android:textColor="#FFFFFF"
+                android:hint="Weight (kg): "
+                android:textColor="@color/black"
                 android:textColorHint="#BBBBBB"
                 android:textSize="16sp"
                 android:backgroundTint="#BBBBBB"
+                android:inputType="numberDecimal"
                 android:padding="8dp" />
 
-            <!-- Sex -->
-            <EditText
+            <RadioGroup
                 android:id="@+id/petSex"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Sex: "
-                android:textColor="#FFFFFF"
-                android:textColorHint="#BBBBBB"
-                android:textSize="16sp"
-                android:backgroundTint="#BBBBBB"
-                android:inputType="text"
-                android:padding="8dp" />
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
 
-            <!-- Nutered -->
-            <EditText
+                <RadioButton
+                    android:id="@+id/sex_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Male" />
+
+                <RadioButton
+                    android:id="@+id/sex_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Female"
+                    android:layout_marginStart="16dp" />
+            </RadioGroup>
+
+            <Switch
                 android:id="@+id/petNeutered"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Neutered: "
-                android:textColor="#564646"
-                android:textColorHint="#BBBBBB"
-                android:textSize="16sp"
-                android:backgroundTint="#BBBBBB"
-                android:inputType="text"
-                android:padding="8dp" />
+                android:text="Neutered"
+                android:textColor="@color/black"
+                android:padding="8dp"
+                android:layout_marginTop="8dp" />
+
+            <Switch
+                android:id="@+id/petVaccinated"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Vaccinated"
+                android:textColor="@color/black"
+                android:padding="8dp"
+                android:layout_marginTop="8dp" />
         </LinearLayout>
+
+        <!-- Add Medical Records Button -->
+        <Button
+            android:id="@+id/btn_medical_records"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Medical Records/ Vaccination History"
+            android:layout_marginTop="16dp" />
+
+        <!-- Submit Button -->
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:layout_marginTop="16dp"
+            android:textColor="#FFFFFF" />
     </LinearLayout>
 </ScrollView>

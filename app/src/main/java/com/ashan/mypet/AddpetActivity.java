@@ -1,5 +1,7 @@
 package com.ashan.mypet;
 
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -7,11 +9,17 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.Calendar;
 
 public class AddpetActivity extends AppCompatActivity {
 
@@ -19,8 +27,12 @@ public class AddpetActivity extends AppCompatActivity {
     private static final int GALLERY_REQUEST_CODE = 101;
 
     private ImageView profilePicture;
-    private Button addPhotoButton;
-    private EditText petName, petSpecies, petBreed, petDateOfBirth, petColor, petWeight, petSex, petNeutered;
+    private Button addPhotoButton, submitButton, dobButton;
+    private Spinner petSpecies;
+    private RadioGroup petSex;
+    private Switch petNeutered, petVaccinated;
+
+    private int year, month, day;  // To store the selected date
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,29 +42,38 @@ public class AddpetActivity extends AppCompatActivity {
         // Initialize views
         profilePicture = findViewById(R.id.img_profile_picture);
         addPhotoButton = findViewById(R.id.btn_add_photo);
+        submitButton = findViewById(R.id.btn_submit);
+        dobButton = findViewById(R.id.btn_date_of_birth);
 
-        petName = findViewById(R.id.petName);
         petSpecies = findViewById(R.id.petSpecies);
-        petBreed = findViewById(R.id.petBreed);
-        petDateOfBirth = findViewById(R.id.petDateOfBirth);
-        petColor = findViewById(R.id.petColor);
-        petWeight = findViewById(R.id.petWeight);
         petSex = findViewById(R.id.petSex);
         petNeutered = findViewById(R.id.petNeutered);
+        petVaccinated = findViewById(R.id.petVaccinated);
 
-        // Set up add photo button to open gallery
-        addPhotoButton.setOnClickListener(v -> {
-            // Choose between camera or gallery
-            Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(galleryIntent, GALLERY_REQUEST_CODE);
-        });
+        // Set up Add Photo button
+        addPhotoButton.setOnClickListener(v -> showPhotoOptions());
 
-        // Set up profile picture click to open camera
-        profilePicture.setOnClickListener(v -> {
-            // Open Camera
-            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
-        });
+        // Handle Date of Birth selection
+        dobButton.setOnClickListener(v -> showDatePickerDialog());
+
+        // Set up Submit button
+        submitButton.setOnClickListener(v -> submitPetDetails());
+    }
+
+    private void showPhotoOptions() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Select Photo")
+                .setItems(new CharSequence[]{"Capture from Camera", "Choose from Gallery"},
+                        (dialog, which) -> {
+                            if (which == 0) {
+                                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
+                            } else if (which == 1) {
+                                Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                startActivityForResult(galleryIntent, GALLERY_REQUEST_CODE);
+                            }
+                        })
+                .show();
     }
 
     @Override
@@ -61,23 +82,51 @@ public class AddpetActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == CAMERA_REQUEST_CODE && data != null) {
-                // Get the captured image from camera
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
                 profilePicture.setImageBitmap(photo);
             } else if (requestCode == GALLERY_REQUEST_CODE && data != null) {
-                // Get the image selected from gallery
                 Uri selectedImage = data.getData();
                 profilePicture.setImageURI(selectedImage);
             }
         } else {
-            // Handle if action is cancelled
             Toast.makeText(this, "Action Cancelled", Toast.LENGTH_SHORT).show();
         }
     }
 
-    // This is where you would save the data to Firestore later
-    // You can collect the data from the EditText views like this:
-    // String name = petName.getText().toString();
-    // String species = petSpecies.getText().toString();
-    // etc.
+    private void showDatePickerDialog() {
+        // Get current date
+        final Calendar calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        // Create and show DatePickerDialog
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                (view, year, monthOfYear, dayOfMonth) -> {
+                    // Format the selected date (optional)
+                    String dateOfBirth = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
+                    dobButton.setText(dateOfBirth);  // Set the date on the button
+                },
+                year, month, day
+        );
+
+        datePickerDialog.show();
+    }
+
+    private void submitPetDetails() {
+        String species = petSpecies.getSelectedItem().toString();
+        int selectedSexId = petSex.getCheckedRadioButtonId();
+        boolean isNeutered = petNeutered.isChecked();
+        boolean isVaccinated = petVaccinated.isChecked();
+
+        String sex = "";
+        if (selectedSexId != -1) {
+            RadioButton selectedSex = findViewById(selectedSexId);
+            sex = selectedSex.getText().toString();
+        }
+
+        // TODO: Add further form validation and save data to Firestore
+        Toast.makeText(this, "Pet details submitted successfully!", Toast.LENGTH_SHORT).show();
+    }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bottom_nav_menu">
 
     <item
         android:id="@+id/nav_home"
@@ -9,12 +10,12 @@
     <item
         android:id="@+id/nav_buy_sell"
         android:icon="@drawable/ic_shop"
-        android:title="Buy/Sell" />
+        android:title="Store" />
 
     <item
         android:id="@+id/nav_medical"
         android:icon="@drawable/ic_medical"
-        android:title="Medical" />
+        android:title="Health" />
 
     <item
         android:id="@+id/nav_profile"
