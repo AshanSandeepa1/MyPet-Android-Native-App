@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "642024723370",
-    "project_id": "mypet-6f170",
-    "storage_bucket": "mypet-6f170.firebasestorage.app"
+    "project_number": "363979281599",
+    "project_id": "mypet-ad039",
+    "storage_bucket": "mypet-ad039.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:642024723370:android:e517fd44facdc6cf0291d3",
+        "mobilesdk_app_id": "1:363979281599:android:3bdf886ebdf629e96b220a",
         "android_client_info": {
           "package_name": "com.ashan.mypet"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyA-KTi5gSNXalgkKY_svpCj4CjN4dOLnDA"
+          "current_key": "AIzaSyA6oeBtYq1w22aiJF5AwR1I_Kev9hkcrS4"
         }
       ],
       "services": {

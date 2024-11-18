@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/nav_home"
+    android:id="@+id/mobile_navigation">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.ashan.mypet.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home"/>
+
+    <fragment
+        android:id="@+id/nav_buy_sell"
+        android:name="com.ashan.mypet.BuySellFragment"
+        android:label="Buy/Sell"
+        tools:layout="@layout/fragment_buy_sell"/>
+
+    <fragment
+        android:id="@+id/nav_medical"
+        android:name="com.ashan.mypet.MedicalFragment"
+        android:label="Medical"
+        tools:layout="@layout/fragment_medical"/>
+
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.ashan.mypet.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile"/>
+</navigation>

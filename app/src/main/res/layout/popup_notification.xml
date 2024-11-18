@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_edittext"
+    android:padding="16dp"
+    android:layout_alignParentTop="true">
+
+    <!-- TextView for notification message -->
+    <TextView
+        android:id="@+id/popup_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No new notifications"
+        android:textColor="#000"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        android:textSize="18sp"
+        android:layout_centerInParent="true"/>
+</RelativeLayout>
