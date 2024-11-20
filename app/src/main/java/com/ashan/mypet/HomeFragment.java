@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.cardview.widget.CardView;
-
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 public class HomeFragment extends Fragment {
@@ -25,31 +25,47 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        // Find the CardView by ID
+        // Find the CardViews by ID
         CardView healthPlusCard = rootView.findViewById(R.id.health_plus_card);
         CardView myPetCard = rootView.findViewById(R.id.mypet_card);
+        CardView petStoreCard = rootView.findViewById(R.id.petStore_card);
+
         // Find and set click listeners for images
         ImageView healthRecordsImage = rootView.findViewById(R.id.health_records_image);
         ImageView vetCentersImage = rootView.findViewById(R.id.vet_centers_image);
 
+        CardView tipsCard = rootView.findViewById(R.id.tips_card);
 
-        myPetCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Create an Intent to start the AddPetActivity
-                Intent intent = new Intent(getActivity(), AddpetActivity.class);
-                startActivity(intent);
-            }
+        // OnClickListener for 'My Pet' Card
+        myPetCard.setOnClickListener(v -> {
+            // Create an Intent to start the AddPetActivity
+            Intent intent = new Intent(getActivity(), AddpetActivity.class);
+            startActivity(intent);
         });
 
+        // OnClickListener for health records image
         healthRecordsImage.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), LoginActivity.class);
             startActivity(intent);
         });
 
+        // OnClickListener for vet centers image
         vetCentersImage.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), RegisterActivity.class);
             startActivity(intent);
+        });
+
+        // OnClickListener for tips card
+        tipsCard.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), RegisterActivity.class);
+            startActivity(intent);
+        });
+
+        // OnClickListener for Pet Store Card
+        petStoreCard.setOnClickListener(v -> {
+             //Use the Navigation Component to navigate to BuySellFragment
+            NavController navController = NavHostFragment.findNavController(HomeFragment.this);
+            navController.navigate(R.id.action_homeFragment_to_buySellFragment);
         });
 
         return rootView;

@@ -62,7 +62,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="No new Notifications" />
+                            android:text="No new Notifications 🎉" />
 
                     </LinearLayout>
 
@@ -252,62 +252,265 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-
-            <!-- Tips & Tricks Card -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp">
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:background="@drawable/card_background">
-
-                    <TextView
-                        android:id="@+id/tips_tricks"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Tips and Tricks"
-                        android:textSize="18sp"
-                        android:textColor="@color/black"
-                        android:textStyle="bold" />
-
-                    <!-- Placeholder or content for tips (e.g., list of tips) -->
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
             <!-- Pet Store Card -->
             <androidx.cardview.widget.CardView
+                android:id="@+id/petStore_card"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp">
+
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:background="@drawable/card_background">
+                    android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/pet_store"
+                    <!-- Header Section -->
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Pet Store"
-                        android:textSize="18sp"
-                        android:textColor="@color/black"
-                        android:textStyle="bold" />
+                        android:padding="16dp"
+                        android:background="@drawable/card_background">
 
-                    <!-- Store section or link to Pet Store fragment -->
+                        <TextView
+                            android:id="@+id/pet_store"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Pet Store"
+                            android:textSize="18sp"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <!-- Horizontal Scrollable Section for Featured Items -->
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical">
+
+                            <!-- Item 1 -->
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="16dp"
+                                android:gravity="center"
+                                android:padding="8dp"
+                                android:background="@drawable/rounded_shape">
+
+                                <ImageView
+                                    android:layout_width="80dp"
+                                    android:layout_height="80dp"
+                                    android:src="@drawable/ic_pet_food"
+                                    android:contentDescription="Featured Item 1"
+                                    android:layout_marginBottom="8dp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Pet Food"
+                                    android:textSize="14sp"
+                                    android:textColor="@color/black"
+                                    android:gravity="center" />
+                            </LinearLayout>
+
+                            <!-- Item 2 -->
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="16dp"
+                                android:gravity="center"
+                                android:padding="8dp"
+                                android:background="@drawable/rounded_shape">
+
+                                <ImageView
+                                    android:layout_width="80dp"
+                                    android:layout_height="80dp"
+                                    android:src="@drawable/ic_pet_toy"
+                                    android:contentDescription="Featured Item 2"
+                                    android:layout_marginBottom="8dp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Pet Toy"
+                                    android:textSize="14sp"
+                                    android:textColor="@color/black"
+                                    android:gravity="center" />
+                            </LinearLayout>
+
+                            <!-- Item 3 -->
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="16dp"
+                                android:gravity="center"
+                                android:padding="8dp"
+                                android:background="@drawable/rounded_shape">
+
+                                <ImageView
+                                    android:layout_width="80dp"
+                                    android:layout_height="80dp"
+                                    android:src="@drawable/ic_pet_bed"
+                                    android:contentDescription="Featured Item 3"
+                                    android:layout_marginBottom="8dp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Pet Bed"
+                                    android:textSize="14sp"
+                                    android:textColor="@color/black"
+                                    android:gravity="center" />
+                            </LinearLayout>
+
+                            <!-- Item 4 -->
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="16dp"
+                                android:gravity="center"
+                                android:padding="8dp"
+                                android:background="@drawable/rounded_shape">
+
+                                <ImageView
+                                    android:layout_width="80dp"
+                                    android:layout_height="80dp"
+                                    android:src="@drawable/ic_pet_bottle"
+                                    android:contentDescription="Featured Item 4"
+                                    android:layout_marginBottom="8dp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Pet Bottle"
+                                    android:textSize="14sp"
+                                    android:textColor="@color/black"
+                                    android:gravity="center" />
+                            </LinearLayout>
+
+                            <!-- Item 5 -->
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="16dp"
+                                android:gravity="center"
+                                android:padding="8dp"
+                                android:background="@drawable/rounded_shape">
+
+                                <ImageView
+                                    android:layout_width="80dp"
+                                    android:layout_height="80dp"
+                                    android:src="@drawable/ic_pet_cereal"
+                                    android:contentDescription="Featured Item 5"
+                                    android:layout_marginBottom="8dp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Pet Cereal"
+                                    android:textSize="14sp"
+                                    android:textColor="@color/black"
+                                    android:gravity="center" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </HorizontalScrollView>
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
+
+            <!-- Tips Card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/tips_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!-- Header Section -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:background="@drawable/card_background">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Tips and Tricks"
+                            android:textSize="18sp"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <!-- Tips Section -->
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="25dp"
+                        android:paddingVertical="10dp">
+
+                        <!-- Tip 1 -->
+                        <TextView
+                            android:id="@+id/tip_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="• Ensure fresh water is always available for your pet."
+                            android:textSize="14sp"
+                            android:textColor="@color/black"
+                            android:layout_marginBottom="4dp" />
+
+                        <!-- Tip 2 -->
+                        <TextView
+                            android:id="@+id/tip_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="• Regular exercise helps your pet stay healthy and happy."
+                            android:textSize="14sp"
+                            android:textColor="@color/black"
+                            android:layout_marginBottom="4dp" />
+
+                        <!-- Tip 3 -->
+                        <TextView
+                            android:id="@+id/tip_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="• Schedule regular vet check-ups for early detection of issues."
+                            android:textSize="14sp"
+                            android:textColor="@color/black" />
+                        <TextView
+                            android:id="@+id/tip_4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="..........."
+                            android:textSize="14sp"
+                            android:textColor="@color/black"
+                            android:paddingLeft="5dp"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
 
             <!-- Pet Care Services Card -->
             <androidx.cardview.widget.CardView

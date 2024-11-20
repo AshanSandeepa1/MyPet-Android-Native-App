@@ -2,7 +2,7 @@ package com.ashan.mypet;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;  // Import Handler
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +23,8 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -118,5 +120,11 @@ public class MainActivity extends AppCompatActivity {
                 new Handler().postDelayed(popupWindow::dismiss, 2500);
             }
         });
+
+        // Initialize Firebase
+        FirebaseApp.initializeApp(this);
+
+        // Initialize Firestore
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
     }
 }
