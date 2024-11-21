@@ -2,6 +2,8 @@
     <string name="app_name">MyPet</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search_hint">Search for items...</string>
+
     <string-array name="species_array">
         <item>Select Species</item>
         <item>Dog</item>

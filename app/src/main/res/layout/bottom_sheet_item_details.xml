@@ -9,12 +9,14 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- Image of the item -->
         <ImageView
             android:id="@+id/item_detail_image"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop" />
 
+        <!-- Item Name -->
         <TextView
             android:id="@+id/item_detail_name"
             android:layout_width="wrap_content"
@@ -24,6 +26,7 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
+        <!-- Item Price -->
         <TextView
             android:id="@+id/item_detail_price"
             android:layout_width="wrap_content"
@@ -33,6 +36,7 @@
             android:textSize="18sp"
             android:textColor="@android:color/holo_red_dark" />
 
+        <!-- Item Description -->
         <TextView
             android:id="@+id/item_detail_description"
             android:layout_width="wrap_content"
@@ -40,5 +44,36 @@
             android:layout_marginTop="8dp"
             android:text="Item Description"
             android:textSize="16sp" />
+
+        <!-- RatingBar for rating -->
+        <RatingBar
+            android:id="@+id/item_detail_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:rating="4.0"
+            android:stepSize="0.5"
+            android:layout_marginTop="8dp"
+            android:isIndicator="true" />
+
+        <!-- Add to Cart Button -->
+        <Button
+            android:id="@+id/add_to_cart_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Add to Cart"
+            android:backgroundTint="@color/black"
+            android:textColor="@android:color/white" />
+
+        <!-- Buy Now Button -->
+        <Button
+            android:id="@+id/buy_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Buy Now"
+            android:backgroundTint="@android:color/holo_green_dark"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 </ScrollView>

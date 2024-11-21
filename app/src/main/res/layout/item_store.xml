@@ -2,38 +2,57 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="4dp">
+    app:cardCornerRadius="12dp"
+    app:cardElevation="6dp"
+    android:clickable="true"
+    android:focusable="true">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
 
+        <!-- Product Image with rounded corners -->
         <ImageView
             android:id="@+id/item_image"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="8dp"
+            android:clipToOutline="true" />
 
+        <!-- Product Name -->
         <TextView
             android:id="@+id/item_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
             android:text="Item Name"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:paddingBottom="4dp" />
 
+        <!-- Product Price -->
         <TextView
             android:id="@+id/item_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
             android:text="$0.00"
-            android:textSize="14sp" />
+            android:textSize="16sp"
+            android:textColor="@android:color/darker_gray" />
+
+        <!-- Free Shipping or Special Tags -->
+        <TextView
+            android:id="@+id/free_shippingx"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Free Shipping"
+            android:textSize="12sp"
+            android:textColor="@android:color/holo_green_light"
+            android:visibility="gone"
+            android:paddingTop="4dp"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

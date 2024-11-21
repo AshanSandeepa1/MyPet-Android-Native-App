@@ -12,12 +12,15 @@ public class PetItem {
     private String category;
     private String image_url;
     private long timestamp;
-    private double rating;
+    private float rating;
 
     // Empty constructor for Firestore
+    @SuppressWarnings("unused")
     public PetItem() {}
 
-    public PetItem(String name, double price, String description, String category, String image_url, long timestamp, double rating) {
+    // Parameterized constructor
+    @SuppressWarnings("unused")
+    public PetItem(String name, double price, String description, String category, String image_url, long timestamp, float rating) {
         this.name = name;
         this.price = price;
         this.description = description;
@@ -84,11 +87,11 @@ public class PetItem {
         this.timestamp = timestamp;
     }
 
-    public double getRating() {
+    public float getRating() {
         return rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 }

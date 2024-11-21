@@ -1,14 +1,73 @@
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_cream">
+
+    <!-- Vertical Layout for Filter Section and Search Bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingVertical="8dp"
+        android:paddingHorizontal="15dp"
+        android:id="@+id/top_filter_bar"
+        android:background="@color/background_cream">
+
+        <!-- Horizontal Layout for Spinner and Toggle Button -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="5dp">
+
+            <!-- Category Filter Spinner -->
+            <Spinner
+                android:id="@+id/category_spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/spinner_background"
+                android:theme="@style/CustomSpinnerStyle"
+                android:popupTheme="@style/CustomSpinnerStyle" />
+
+
+            <!-- Toggle Grid/List Button -->
+            <ImageButton
+                android:id="@+id/toggle_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_gallery"
+                android:contentDescription="Toggle Grid/List"
+                android:padding="8dp"
+                android:requiresFadingEdge="horizontal"/>
+        </LinearLayout>
+
+        <!-- Search View -->
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:queryHint="Search for items..."
+            android:theme="@style/SearchViewStyle"
+            android:background="@drawable/search_view_background"
+            android:padding="3dp"
+            android:layout_marginVertical="5dp"
+            android:requiresFadingEdge="horizontal"/>
+
+    </LinearLayout>
 
     <!-- RecyclerView to display items -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:layout_marginTop="120dp"
+        android:paddingTop="8dp"
+        android:clipToPadding="false"
+        android:layout_marginBottom="16dp"
+        android:visibility="gone"
+        android:paddingHorizontal="10dp"/>
 
     <!-- ProgressBar for loading -->
     <ProgressBar

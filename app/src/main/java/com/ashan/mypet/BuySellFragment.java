@@ -1,23 +1,33 @@
 package com.ashan.mypet;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class BuySellFragment extends Fragment {
 
@@ -27,6 +37,11 @@ public class BuySellFragment extends Fragment {
     private StoreAdapter storeAdapter;
     private List<PetItem> itemList;
     private FirebaseFirestore db;
+    private Spinner categorySpinner;
+    private List<String> categoryList;
+    private ImageButton toggleButton;
+    private boolean isGridView = true; // Track the current view type
+    private SearchView searchBar;
 
     public BuySellFragment() {
         // Required empty public constructor
@@ -41,41 +56,186 @@ public class BuySellFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view);
         progressBar = view.findViewById(R.id.progress_bar);
         emptyText = view.findViewById(R.id.empty_text);
+        categorySpinner = view.findViewById(R.id.category_spinner);
+        toggleButton = view.findViewById(R.id.toggle_button);
 
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2)); // 2-column grid layout
-
+        // Set up RecyclerView with grid layout as default
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         itemList = new ArrayList<>();
         storeAdapter = new StoreAdapter(itemList, getContext(), this::showItemDetails);
         recyclerView.setAdapter(storeAdapter);
 
+        // Initialize Firestore
         db = FirebaseFirestore.getInstance();
 
-
+        // Initialize category list and load data
+        categoryList = new ArrayList<>();
+        loadCategoriesFromFirestore();
         loadItemsFromFirestore();
+
+        // Toggle between grid and list views
+        toggleButton.setOnClickListener(v -> toggleRecyclerViewLayout());
+
+        // Set up SearchView
+        searchBar = view.findViewById(R.id.search_bar);
+        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filterItemsBySearch(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterItemsBySearch(newText);
+                return true;
+            }
+        });
 
         return view;
     }
 
-    private void loadItemsFromFirestore() {
-        db.collection("pet_store_items") // Reference to your Firestore collection
+    private void toggleRecyclerViewLayout() {
+        if (isGridView) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            toggleButton.setImageResource(android.R.drawable.ic_menu_sort_by_size); // Icon for list view
+        } else {
+            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+            toggleButton.setImageResource(android.R.drawable.ic_menu_gallery); // Icon for grid view
+        }
+        isGridView = !isGridView;
+    }
+
+    private void loadCategoriesFromFirestore() {
+        db.collection("pet_store_items")
                 .get()
                 .addOnSuccessListener(querySnapshot -> {
-                    itemList.clear();  // Clear the list before adding new items
+                    Set<String> categoriesSet = new HashSet<>();
                     for (QueryDocumentSnapshot document : querySnapshot) {
-                        PetItem item = document.toObject(PetItem.class); // Map Firestore document to PetItem
-                        itemList.add(item);  // Add to the list
+                        String category = document.getString("category");
+                        if (category != null) categoriesSet.add(category);
                     }
-                    storeAdapter.notifyDataSetChanged();  // Notify adapter about the data change
+                    categoryList.clear();
+                    categoryList.add("All");
+                    categoryList.addAll(categoriesSet);
+
+                    // Set up category spinner
+                    ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, categoryList);
+                    categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    categorySpinner.setAdapter(categoryAdapter);
+
+                    categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            filterItemsByCategory(categoryList.get(position));
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                            // No action needed
+                        }
+                    });
                 })
                 .addOnFailureListener(e -> {
-                    // Handle Firestore errors here
+                    Log.e("FirestoreError", "Error loading categories: " + e.getMessage());
+                    Toast.makeText(getContext(), "Failed to load categories.", Toast.LENGTH_SHORT).show();
                 });
     }
 
+    private void loadItemsFromFirestore() {
+        showLoadingState(true);
+        db.collection("pet_store_items")
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    itemList.clear();
+                    for (QueryDocumentSnapshot document : querySnapshot) {
+                        try {
+                            PetItem item = document.toObject(PetItem.class);
+                            itemList.add(item);
+                        } catch (Exception e) {
+                            Log.e("FirestoreError", "Error mapping document: " + e.getMessage());
+                        }
+                    }
+                    updateRecyclerView();
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("FirestoreError", "Error loading items: " + e.getMessage());
+                    showLoadingState(false);
+                    emptyText.setText("Failed to load items.");
+                });
+    }
+
+    private void filterItemsByCategory(String category) {
+        if ("All".equals(category)) {
+            loadItemsFromFirestore(); // Reload all items
+            return;
+        }
+
+        showLoadingState(true);
+        db.collection("pet_store_items")
+                .whereEqualTo("category", category)
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    itemList.clear();
+                    for (QueryDocumentSnapshot document : querySnapshot) {
+                        try {
+                            PetItem item = document.toObject(PetItem.class);
+                            itemList.add(item);
+                        } catch (Exception e) {
+                            Log.e("FirestoreError", "Error mapping document: " + e.getMessage());
+                        }
+                    }
+                    updateRecyclerView();
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("FirestoreError", "Error loading filtered items: " + e.getMessage());
+                    showLoadingState(false);
+                    emptyText.setText("Failed to filter items.");
+                });
+    }
+
+    private void updateRecyclerView() {
+        showLoadingState(false);
+        if (itemList.isEmpty()) {
+            emptyText.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            emptyText.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            storeAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void showLoadingState(boolean isLoading) {
+        progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+        recyclerView.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        emptyText.setVisibility(View.GONE);
+    }
 
     private void showItemDetails(PetItem item) {
         ItemDetailsBottomSheet bottomSheet = ItemDetailsBottomSheet.newInstance(item);
         bottomSheet.show(getChildFragmentManager(), "item_details");
     }
-}
 
+    private void filterItemsBySearch(String query) {
+        List<PetItem> filteredList = new ArrayList<>();
+        for (PetItem item : itemList) {
+            if (item.getName().toLowerCase().contains(query.toLowerCase())) {
+                filteredList.add(item);
+            }
+        }
+
+        // Update the adapter with the filtered list
+        storeAdapter.updateList(filteredList);
+
+        // Show a message if no results are found
+        if (filteredList.isEmpty()) {
+            emptyText.setVisibility(View.VISIBLE);
+            emptyText.setText("No items match your search.");
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            emptyText.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+    }
+}
