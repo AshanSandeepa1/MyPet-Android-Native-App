@@ -15,6 +15,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -22,6 +25,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Button buttonCreate;
     private TextView textViewLogin;
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +40,9 @@ public class RegisterActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Initialize Firebase Auth
+        // Initialize Firebase Auth and Firestore
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         // Initialize UI elements
         editName = findViewById(R.id.editName);
@@ -88,12 +93,27 @@ public class RegisterActivity extends AppCompatActivity {
         // Register the user with Firebase
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                // Registration successful
-                Toast.makeText(RegisterActivity.this, "User registered successfully!", Toast.LENGTH_SHORT).show();
-                // Navigate to MainActivity or LoginActivity
-                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
+                // Get the user's unique ID
+                String userId = mAuth.getCurrentUser().getUid();
+
+                // Create a HashMap to store user details
+                HashMap<String, Object> user = new HashMap<>();
+                user.put("username", name); // Username entered by the user
+                user.put("email", email);   // Email entered by the user
+
+                // Save user details to Firestore
+                db.collection("users").document(userId).set(user)
+                        .addOnSuccessListener(aVoid -> {
+                            Toast.makeText(RegisterActivity.this, "User registered and data saved successfully!", Toast.LENGTH_SHORT).show();
+
+                            // Navigate to LoginActivity
+                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            finish();
+                        })
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(RegisterActivity.this, "Error saving user data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        });
             } else {
                 // Registration failed
                 Toast.makeText(RegisterActivity.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();

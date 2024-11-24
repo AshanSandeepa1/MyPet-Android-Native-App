@@ -58,18 +58,21 @@ public class BuySellFragment extends Fragment {
         emptyText = view.findViewById(R.id.empty_text);
         categorySpinner = view.findViewById(R.id.category_spinner);
         toggleButton = view.findViewById(R.id.toggle_button);
+        searchBar = view.findViewById(R.id.search_bar);
+
+        // Initialize Firebase Firestore
+        db = FirebaseFirestore.getInstance();
+
+        // Initialize lists
+        itemList = new ArrayList<>();
+        categoryList = new ArrayList<>();
 
         // Set up RecyclerView with grid layout as default
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        itemList = new ArrayList<>();
         storeAdapter = new StoreAdapter(itemList, getContext(), this::showItemDetails);
         recyclerView.setAdapter(storeAdapter);
 
-        // Initialize Firestore
-        db = FirebaseFirestore.getInstance();
-
-        // Initialize category list and load data
-        categoryList = new ArrayList<>();
+        // Load categories and items from Firestore
         loadCategoriesFromFirestore();
         loadItemsFromFirestore();
 
@@ -77,7 +80,6 @@ public class BuySellFragment extends Fragment {
         toggleButton.setOnClickListener(v -> toggleRecyclerViewLayout());
 
         // Set up SearchView
-        searchBar = view.findViewById(R.id.search_bar);
         searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -156,6 +158,7 @@ public class BuySellFragment extends Fragment {
                             Log.e("FirestoreError", "Error mapping document: " + e.getMessage());
                         }
                     }
+                    showLoadingState(false);
                     updateRecyclerView();
                 })
                 .addOnFailureListener(e -> {
@@ -167,37 +170,62 @@ public class BuySellFragment extends Fragment {
 
     private void filterItemsByCategory(String category) {
         if ("All".equals(category)) {
-            loadItemsFromFirestore(); // Reload all items
+            storeAdapter.updateList(itemList); // Show all items
+            emptyText.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
             return;
         }
 
-        showLoadingState(true);
-        db.collection("pet_store_items")
-                .whereEqualTo("category", category)
-                .get()
-                .addOnSuccessListener(querySnapshot -> {
-                    itemList.clear();
-                    for (QueryDocumentSnapshot document : querySnapshot) {
-                        try {
-                            PetItem item = document.toObject(PetItem.class);
-                            itemList.add(item);
-                        } catch (Exception e) {
-                            Log.e("FirestoreError", "Error mapping document: " + e.getMessage());
-                        }
-                    }
-                    updateRecyclerView();
-                })
-                .addOnFailureListener(e -> {
-                    Log.e("FirestoreError", "Error loading filtered items: " + e.getMessage());
-                    showLoadingState(false);
-                    emptyText.setText("Failed to filter items.");
-                });
+        List<PetItem> filteredList = new ArrayList<>();
+        for (PetItem item : itemList) {
+            if (category.equals(item.getCategory())) {
+                filteredList.add(item);
+            }
+        }
+
+        storeAdapter.updateList(filteredList);
+
+        if (filteredList.isEmpty()) {
+            emptyText.setVisibility(View.VISIBLE);
+            emptyText.setText("No items in this category.");
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            emptyText.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void filterItemsBySearch(String query) {
+        if (query == null || query.isEmpty()) {
+            storeAdapter.updateList(itemList); // Show all items when search is empty
+            emptyText.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            return;
+        }
+
+        List<PetItem> filteredList = new ArrayList<>();
+        for (PetItem item : itemList) {
+            if (item.getName().toLowerCase().contains(query.toLowerCase())) {
+                filteredList.add(item);
+            }
+        }
+
+        storeAdapter.updateList(filteredList);
+
+        if (filteredList.isEmpty()) {
+            emptyText.setVisibility(View.VISIBLE);
+            emptyText.setText("No items match your search.");
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            emptyText.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
     }
 
     private void updateRecyclerView() {
-        showLoadingState(false);
         if (itemList.isEmpty()) {
             emptyText.setVisibility(View.VISIBLE);
+            emptyText.setText("No items available.");
             recyclerView.setVisibility(View.GONE);
         } else {
             emptyText.setVisibility(View.GONE);
@@ -215,27 +243,5 @@ public class BuySellFragment extends Fragment {
     private void showItemDetails(PetItem item) {
         ItemDetailsBottomSheet bottomSheet = ItemDetailsBottomSheet.newInstance(item);
         bottomSheet.show(getChildFragmentManager(), "item_details");
-    }
-
-    private void filterItemsBySearch(String query) {
-        List<PetItem> filteredList = new ArrayList<>();
-        for (PetItem item : itemList) {
-            if (item.getName().toLowerCase().contains(query.toLowerCase())) {
-                filteredList.add(item);
-            }
-        }
-
-        // Update the adapter with the filtered list
-        storeAdapter.updateList(filteredList);
-
-        // Show a message if no results are found
-        if (filteredList.isEmpty()) {
-            emptyText.setVisibility(View.VISIBLE);
-            emptyText.setText("No items match your search.");
-            recyclerView.setVisibility(View.GONE);
-        } else {
-            emptyText.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-        }
     }
 }

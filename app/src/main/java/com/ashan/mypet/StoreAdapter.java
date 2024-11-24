@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.ViewHolder> {
@@ -28,14 +29,18 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.ViewHolder> 
 
     // Constructor to initialize the adapter
     public StoreAdapter(List<PetItem> items, Context context, ItemClickListener clickListener) {
-        this.items = items;
+        this.items = new ArrayList<>(items); // Initialize with a copy to avoid external modification
         this.context = context;
         this.clickListener = clickListener;
     }
 
     // Method to dynamically update the data and refresh the UI
     public void updateList(List<PetItem> newList) {
-        this.items = newList;
+        if (newList == null || newList.isEmpty()) {
+            this.items.clear(); // Clear the existing list if the new list is empty or null
+        } else {
+            this.items = new ArrayList<>(newList); // Replace with the new list
+        }
         notifyDataSetChanged(); // Notify RecyclerView about the data change
     }
 
@@ -79,7 +84,7 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.ViewHolder> 
     // Return the number of items in the list
     @Override
     public int getItemCount() {
-        return items.size();
+        return items != null ? items.size() : 0;
     }
 
     // ViewHolder class to hold the views for each item
