@@ -13,5 +13,12 @@
         <item>Rabbit</item>
         <item>Other</item>
     </string-array>
-
+    <string name="health_records">Health Records</string>
+    <string name="vet_centers">Vet Centers</string>
+    <string name="health_records_icon">Health Records Icon</string>
+    <string name="vet_centers_icon">Vet Centers Icon</string>
+    <string-array name="health_record_types">
+        <item>Vaccination</item>
+        <item>Medication</item>
+    </string-array>
 </resources>

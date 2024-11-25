@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_dark_cream">
+
+    <!-- Top Navbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/top_nav_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        android:elevation="4dp"
+        app:title="Tips and Tricks"
+        android:gravity="center"
+        app:titleTextColor="@android:color/black"
+        android:layout_marginBottom="20dp" />
+
+    <!-- ScrollView for vertically scrollable cards -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:layout_marginTop="60dp">
+
+        <!-- Vertical LinearLayout to hold all the cards -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+
+            <!-- Common Tips and Tricks Card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/common_tips_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!-- Header Section -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:background="@drawable/card_background">
+
+                        <TextView
+                            android:id="@+id/common_tips_header"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Common Tips and Tricks for Pets"
+                            android:textSize="18sp"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <!-- Tips -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:background="@drawable/card_background_cont">
+
+                        <TextView
+                            android:id="@+id/tip1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Provide fresh water daily to keep your pets hydrated."
+                            android:textSize="16sp"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:background="@drawable/card_background_cont">
+
+                        <TextView
+                            android:id="@+id/tip2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Feed your pets a balanced diet appropriate for their species."
+                            android:textSize="16sp"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:background="@drawable/card_background_cont">
+
+                        <TextView
+                            android:id="@+id/tip3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Provide regular grooming and cleaning based on your pet's needs."
+                            android:textSize="16sp"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:background="@drawable/card_background_cont">
+
+                        <TextView
+                            android:id="@+id/tip4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Create a stimulating environment with toys and activities."
+                            android:textSize="16sp"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:background="@drawable/card_background_cont">
+
+                        <TextView
+                            android:id="@+id/tip5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Schedule regular vet check-ups to maintain good health."
+                            android:textSize="16sp"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:background="@drawable/card_background_cont">
+
+                        <TextView
+                            android:id="@+id/tip6"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Ensure proper grooming based on the pet type, like brushing or nail trimming."
+                            android:textSize="16sp"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:background="@drawable/card_background_cont">
+
+                        <TextView
+                            android:id="@+id/tip7"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Socialize pets appropriately to ensure they feel secure and loved."
+                            android:textSize="16sp"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:background="@drawable/card_background_cont">
+
+                        <TextView
+                            android:id="@+id/tip8"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Maintain a safe environment free from hazards like toxic plants or sharp objects."
+                            android:textSize="16sp"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:background="@drawable/card_background_cont">
+
+                        <TextView
+                            android:id="@+id/tip9"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Monitor for any signs of illness, such as changes in behavior or appetite."
+                            android:textSize="16sp"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:background="@drawable/card_background_cont">
+
+                        <TextView
+                            android:id="@+id/tip10"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Give plenty of attention and affection to build trust with your pets."
+                            android:textSize="16sp"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

@@ -45,28 +45,28 @@ public class HomeFragment extends Fragment {
 
         // OnClickListener for health records image
         healthRecordsImage.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), LoginActivity.class);
+            Intent intent = new Intent(getContext(), HealthRecordsActivity.class);
             startActivity(intent);
         });
 
         // OnClickListener for vet centers image
         vetCentersImage.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), RegisterActivity.class);
+            Intent intent = new Intent(getContext(), VetCentersActivity.class);
             startActivity(intent);
         });
 
         // OnClickListener for tips card
         tipsCard.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), RegisterActivity.class);
+            Intent intent = new Intent(getContext(), TipsTricksActivity.class);
             startActivity(intent);
         });
 
         // OnClickListener for Pet Store Card
-        petStoreCard.setOnClickListener(v -> {
+       // petStoreCard.setOnClickListener(v -> {
              //Use the Navigation Component to navigate to BuySellFragment
-            NavController navController = NavHostFragment.findNavController(HomeFragment.this);
-            navController.navigate(R.id.action_homeFragment_to_buySellFragment);
-        });
+      //      NavController navController = NavHostFragment.findNavController(HomeFragment.this);
+      //      navController.navigate(R.id.action_homeFragment_to_buySellFragment);
+      //  });
 
         return rootView;
     }

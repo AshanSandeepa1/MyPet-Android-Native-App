@@ -3,5 +3,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="background_cream">#f5eeeb</color>
-    <color name="background_dark_cream">#FCD2C2</color>"
+    <color name="background_dark_cream">#FCD2C2</color>
+    <color name="light_green">#A5D6A7</color>
+    <color name="light_blue">#81D4FA</color>
+
 </resources>

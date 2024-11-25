@@ -45,7 +45,7 @@ dependencies {
     // Firebase BoM for Version Management
     implementation(platform("com.google.firebase:firebase-bom:32.0.0"))
     implementation("com.google.firebase:firebase-auth")
-    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-firestore:24.4.1")
     implementation("com.google.firebase:firebase-storage") // Add if using Firebase Storage
     //implementation("com.google.android.gms:play-services:17.0.0")
 
@@ -61,7 +61,12 @@ dependencies {
 
     // Glide for Image Loading
     implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation(libs.appcompat)
+    implementation(libs.activity)
+    implementation(libs.constraintlayout)
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
+
+    implementation("com.squareup.picasso:picasso:2.8")
 
     // Testing Dependencies
     testImplementation("junit:junit:4.13.2")
