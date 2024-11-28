@@ -46,6 +46,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+
+
+
     <!-- RecyclerView for Health Records -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/healthRecordsRecyclerView"
@@ -58,6 +61,20 @@
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <!-- Floating Action Button for adding health records -->
+    <TextView
+        android:id="@+id/noRecordsText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="Select a pet to display records"
+        android:textSize="16sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/healthRecordsRecyclerView"
+        app:layout_constraintTop_toBottomOf="@+id/healthRecordsLabel"
+        app:layout_constraintVertical_bias="0.336"
+        tools:layout_editor_absoluteX="0dp" />
+
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/fabAddRecord"
         android:layout_width="60dp"

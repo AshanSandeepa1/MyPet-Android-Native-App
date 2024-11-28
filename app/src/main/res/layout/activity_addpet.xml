@@ -162,21 +162,24 @@
                 android:layout_marginTop="8dp" />
         </LinearLayout>
 
-        <!-- Add Medical Records Button -->
-        <Button
-            android:id="@+id/btn_medical_records"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Add Medical Records/ Vaccination History"
-            android:layout_marginTop="16dp" />
 
         <!-- Submit Button -->
         <Button
             android:id="@+id/btn_submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Submit"
+            android:text="Save Pet"
             android:layout_marginTop="16dp"
             android:textColor="#FFFFFF" />
+
+        <!-- Add Medical Records Button -->
+        <Button
+            android:id="@+id/btn_medical_records"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Medical/ VAccination Records"
+            android:layout_marginTop="16dp" />
+
+
     </LinearLayout>
 </ScrollView>

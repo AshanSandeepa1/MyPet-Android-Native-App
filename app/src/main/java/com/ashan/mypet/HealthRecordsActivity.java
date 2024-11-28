@@ -54,14 +54,13 @@ public class HealthRecordsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Transparent status bar
+        // Transparent status bar and layout inflation
         Window window = getWindow();
         window.setStatusBarColor(android.graphics.Color.TRANSPARENT);
         window.getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
                         View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
                         View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-
         setContentView(R.layout.activity_health_records);
 
         firestore = FirebaseFirestore.getInstance();
@@ -73,9 +72,11 @@ public class HealthRecordsActivity extends AppCompatActivity {
             return;
         }
 
+        // Initialize UI components
         petRecyclerView = findViewById(R.id.petRecyclerView);
         healthRecordsRecyclerView = findViewById(R.id.healthRecordsRecyclerView);
         fabAddRecord = findViewById(R.id.fabAddRecord);
+        TextView noRecordsText = findViewById(R.id.noRecordsText);
 
         petRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         healthRecordsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -83,7 +84,10 @@ public class HealthRecordsActivity extends AppCompatActivity {
         petList = new ArrayList<>();
         healthRecordList = new ArrayList<>();
 
-        //Adding Health Record by AddHealthRecordFragment.java
+        // Set "Select a pet" message initially
+        noRecordsText.setVisibility(View.VISIBLE);
+        noRecordsText.setText("Select a pet to display records");
+
         fabAddRecord.setOnClickListener(v -> {
             if (selectedPet != null) {
                 AddHealthRecordFragment fragment = new AddHealthRecordFragment();
@@ -97,10 +101,10 @@ public class HealthRecordsActivity extends AppCompatActivity {
             }
         });
 
-        loadPets(userId);
+        loadPets(userId, noRecordsText);
     }
 
-    private void loadPets(String userId) {
+    private void loadPets(String userId, TextView noRecordsText) {
         firestore.collection("users").document(userId).collection("pets")
                 .get()
                 .addOnCompleteListener(task -> {
@@ -111,9 +115,10 @@ public class HealthRecordsActivity extends AppCompatActivity {
                             pet.setPId(document.getId());
                             petList.add(pet);
                         }
+
                         petAdapter = new PetAdapter(petList, pet -> {
                             selectedPet = pet;
-                            loadHealthRecords(userId, pet.getPId());
+                            loadHealthRecords(userId, pet.getPId(), noRecordsText);
                         });
                         petRecyclerView.setAdapter(petAdapter);
                     } else {
@@ -122,7 +127,7 @@ public class HealthRecordsActivity extends AppCompatActivity {
                 });
     }
 
-    private void loadHealthRecords(String userId, String petId) {
+    private void loadHealthRecords(String userId, String petId, TextView noRecordsText) {
         firestore.collection("users").document(userId).collection("pets")
                 .document(petId).collection("HealthRecords")
                 .get()
@@ -134,21 +139,32 @@ public class HealthRecordsActivity extends AppCompatActivity {
                             record.setRecordId(document.getId());
                             healthRecordList.add(record);
                         }
-                        healthRecordAdapter = new HealthRecordAdapter(healthRecordList, new HealthRecordAdapter.OnHealthRecordClickListener() {
-                            @Override
-                            public void onHealthRecordClick(HealthRecord healthRecord) {
-                                showHealthRecordPopup(healthRecord);
-                            }
 
-                            @Override
-                            public void onHealthRecordDelete(HealthRecord healthRecord) {
-                                deleteHealthRecord(userId, petId, healthRecord);
-                            }
-                        });
-                        healthRecordsRecyclerView.setAdapter(healthRecordAdapter);
+                        if (healthRecordList.isEmpty()) {
+                            noRecordsText.setVisibility(View.VISIBLE);
+                            noRecordsText.setText("No health records found for this pet. \n Click the + button below to add health records.");
+                            healthRecordsRecyclerView.setVisibility(View.GONE);
+                        } else {
+                            noRecordsText.setVisibility(View.GONE);
+                            healthRecordsRecyclerView.setVisibility(View.VISIBLE);
+
+                            healthRecordAdapter = new HealthRecordAdapter(healthRecordList, new HealthRecordAdapter.OnHealthRecordClickListener() {
+                                @Override
+                                public void onHealthRecordClick(HealthRecord healthRecord) {
+                                    showHealthRecordPopup(healthRecord);
+                                }
+
+                                @Override
+                                public void onHealthRecordDelete(HealthRecord healthRecord) {
+                                    deleteHealthRecord(userId, petId, healthRecord);
+                                }
+                            });
+                            healthRecordsRecyclerView.setAdapter(healthRecordAdapter);
+                        }
                     }
                 });
     }
+
 
     private void deleteHealthRecord(String userId, String petId, HealthRecord healthRecord) {
         // Show confirmation dialog
