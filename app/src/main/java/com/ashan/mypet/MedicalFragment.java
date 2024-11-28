@@ -40,7 +40,7 @@ public class MedicalFragment extends Fragment {
     }
 
     private void openVetCentersActivity() {
-        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        Intent intent = new Intent(getActivity(), VetCentersActivity.class);
         startActivity(intent);
     }
 }
