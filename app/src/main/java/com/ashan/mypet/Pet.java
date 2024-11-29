@@ -12,6 +12,9 @@ public class Pet {
     private boolean neutered;
     private String gender;  // Add gender field
     private Timestamp dob;  // Change dob to Timestamp
+    private String breed;
+    private String color;
+    private double weight;
 
     // No-argument constructor
     public Pet() {}
@@ -108,5 +111,29 @@ public class Pet {
             return dob.toDate().toString();  // or format it using SimpleDateFormat if preferred
         }
         return null;
+    }
+
+    public String getBreed() {
+        return breed;
+    }
+
+    public void setBreed(String breed) {
+        this.breed = breed;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
     }
 }

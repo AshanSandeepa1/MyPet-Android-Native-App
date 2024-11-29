@@ -28,15 +28,19 @@ import java.util.List;
 
 public class ProfileFragment extends Fragment implements PetAdapter.OnPetClickListener {
 
+    // UI Components
     private TextView profileNameTextView, profileEmailTextView;
     private ImageView profilePictureImageView;
     private Button editProfileButton, addNewPetButton, logoutButton, changePasswordButton;
     private RecyclerView petRecyclerView;
-    private PetAdapter petAdapter;
 
+    // Firebase components
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private FirebaseUser currentUser;
+
+    // Pet List Components
+    private PetAdapter petAdapter;
     private List<Pet> petList;
 
     public ProfileFragment() {
@@ -44,8 +48,7 @@ public class ProfileFragment extends Fragment implements PetAdapter.OnPetClickLi
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
@@ -64,43 +67,95 @@ public class ProfileFragment extends Fragment implements PetAdapter.OnPetClickLi
         changePasswordButton = view.findViewById(R.id.change_password_button);
         petRecyclerView = view.findViewById(R.id.pet_recycler_view);
 
-        // Set up RecyclerView for pet list
+        // Set up RecyclerView
         petRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         petList = new ArrayList<>();
         petAdapter = new PetAdapter(petList, this);
         petRecyclerView.setAdapter(petAdapter);
 
-        // Load user data
+        // Load profile and pet data
         loadUserData();
-
-        // Load user pets
         loadUserPets();
 
-        // Set up button listeners
-        editProfileButton.setOnClickListener(v -> {
-            // Open Edit Profile activity
-            Intent intent = new Intent(getContext(), AddpetActivity.class);
-            startActivity(intent);
-        });
+        // Set button listeners
+        editProfileButton.setOnClickListener(v -> navigateToActivity(AddpetActivity.class));
+        addNewPetButton.setOnClickListener(v -> navigateToActivity(AddpetActivity.class));
+        logoutButton.setOnClickListener(this::logoutUser);
+        changePasswordButton.setOnClickListener(this::resetPassword);
 
-        addNewPetButton.setOnClickListener(v -> {
-            // Open Add New Pet activity
-            Intent intent = new Intent(getContext(), AddpetActivity.class);
-            startActivity(intent);
-        });
+        return view;
+    }
 
-        logoutButton.setOnClickListener(v -> {
-            // Log out from Firebase
-            mAuth.signOut();
-            Intent intent = new Intent(getContext(), LoginActivity.class);
-            startActivity(intent);
-            getActivity().finish();
-        });
+    // Load user profile details
+    private void loadUserData() {
+        if (currentUser == null) {
+            Toast.makeText(getContext(), "User not authenticated", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        changePasswordButton.setOnClickListener(v -> {
-            // Allow the user to change their password (send reset email)
-            if (currentUser != null) {
-                mAuth.sendPasswordResetEmail(currentUser.getEmail())
+        String userId = currentUser.getUid();
+        db.collection("users").document(userId).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        DocumentSnapshot document = task.getResult();
+                        String displayName = document.getString("username");
+                        String email = document.getString("email");
+                        String profilePictureUrl = document.getString("profilePicture");
+
+                        profileNameTextView.setText(displayName != null ? displayName : "N/A");
+                        profileEmailTextView.setText(email != null ? email : "N/A");
+
+                        if (profilePictureUrl != null && !profilePictureUrl.isEmpty()) {
+                            Glide.with(this).load(profilePictureUrl).into(profilePictureImageView);
+                        } else {
+                            profilePictureImageView.setImageResource(R.drawable.ic_profile); // Fallback image
+                        }
+                    } else {
+                        Toast.makeText(getContext(), "Error loading profile data", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    // Load user pets from Firestore
+    private void loadUserPets() {
+        if (currentUser == null) {
+            Toast.makeText(getContext(), "User not authenticated", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String userId = currentUser.getUid();
+        db.collection("users").document(userId).collection("pets")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        petList.clear();
+                        for (DocumentSnapshot document : task.getResult()) {
+                            Pet pet = document.toObject(Pet.class);
+                            if (pet != null) {
+                                pet.setPId(document.getId());
+                                petList.add(pet);
+                            }
+                        }
+                        petAdapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(getContext(), "Error loading pets", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    // Logout user
+    private void logoutUser(View view) {
+        mAuth.signOut();
+        navigateToActivity(LoginActivity.class);
+        if (getActivity() != null) getActivity().finish();
+    }
+
+    // Send password reset email
+    private void resetPassword(View view) {
+        if (currentUser != null) {
+            String email = currentUser.getEmail();
+            if (email != null) {
+                mAuth.sendPasswordResetEmail(email)
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
                                 Toast.makeText(getContext(), "Password reset email sent.", Toast.LENGTH_SHORT).show();
@@ -109,82 +164,23 @@ public class ProfileFragment extends Fragment implements PetAdapter.OnPetClickLi
                             }
                         });
             }
-        });
-
-        return view;
+        }
     }
 
-    private void loadUserData() {
-        String userId = FirebaseAuth.getInstance().getUid();
-
-        if (userId == null) {
-            Toast.makeText(getContext(), "User not authenticated", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Fetch user data from the "Users" collection where document ID is the same as userId
-        db.collection("users").document(userId).get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        // DocumentSnapshot for the user
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            // Retrieve user details from the Firestore document
-                            String displayName = document.getString("username");
-                            String email = document.getString("email");
-                            String profilePictureUrl = document.getString("profilePicture");
-
-                            // Set the retrieved data in the UI components
-                            profileNameTextView.setText(displayName);
-                            profileEmailTextView.setText(email);
-
-                            // Load profile picture using Glide (if available)
-                            if (profilePictureUrl != null && !profilePictureUrl.isEmpty()) {
-                                Glide.with(getContext())
-                                        .load(profilePictureUrl)
-                                        .into(profilePictureImageView);
-                            }
-                        } else {
-                            Toast.makeText(getContext(), "No such user document", Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        Toast.makeText(getContext(), "Error loading user data", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
-
-    private void loadUserPets() {
-        String userId = FirebaseAuth.getInstance().getUid();
-
-        if (userId == null) {
-            Toast.makeText(getContext(), "User not authenticated", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Query to fetch pets from Firestore
-        db.collection("users").document(userId).collection("pets")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        QuerySnapshot querySnapshot = task.getResult();
-                        petList.clear(); // Clear existing list
-                        for (DocumentSnapshot document : querySnapshot.getDocuments()) {
-                            Pet pet = document.toObject(Pet.class);
-                            petList.add(pet);
-                        }
-                        petAdapter.notifyDataSetChanged(); // Update the adapter
-                    } else {
-                        Toast.makeText(getContext(), "Error loading pets", Toast.LENGTH_SHORT).show();
-                    }
-                });
+    // Navigate to another activity
+    private void navigateToActivity(Class<?> activityClass) {
+        Intent intent = new Intent(getContext(), activityClass);
+        startActivity(intent);
     }
 
     @Override
     public void onPetClick(Pet pet) {
-        // Handle pet item click, maybe open pet details screen
-        Intent intent = new Intent(getContext(), AddpetActivity.class);
-        intent.putExtra("petId", pet.getPId());  // Pass the petId for details
-        startActivity(intent);
+        if (pet.getPId() != null && !pet.getPId().isEmpty()) {
+            Intent intent = new Intent(getContext(), PetDetailsActivity.class);
+            intent.putExtra("PET_ID", pet.getPId());
+            startActivity(intent);
+        } else {
+            Toast.makeText(getContext(), "Invalid Pet ID", Toast.LENGTH_SHORT).show();
+        }
     }
 }
