@@ -47,7 +47,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Add Photo"
-                android:layout_marginStart="16dp" />
+                android:layout_marginStart="16dp"
+                android:backgroundTint="@android:color/holo_blue_dark"/>
         </LinearLayout>
 
         <!-- Pet Info Section -->
@@ -97,7 +98,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Select Date of Birth"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@android:color/holo_blue_dark"/>
 
             <EditText
                 android:id="@+id/petColor"
@@ -171,15 +173,19 @@
             android:layout_height="wrap_content"
             android:text="Save Pet"
             android:layout_marginTop="16dp"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:layout_marginHorizontal="15dp"
+            android:backgroundTint="@android:color/holo_blue_dark"/>
 
         <!-- Add Medical Records Button -->
         <Button
             android:id="@+id/btn_medical_records"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add Medical/ VAccination Records"
-            android:layout_marginTop="16dp" />
+            android:text="Add Medical/ Vaccination Records"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="15dp"
+            android:backgroundTint="@android:color/holo_green_dark"/>
 
 
     </LinearLayout>

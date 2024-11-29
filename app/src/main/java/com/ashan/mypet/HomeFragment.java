@@ -39,7 +39,8 @@ public class HomeFragment extends Fragment {
         // OnClickListener for 'My Pet' Card
         myPetCard.setOnClickListener(v -> {
             // Create an Intent to start the AddPetActivity
-            Intent intent = new Intent(getActivity(), AddpetActivity.class);
+            Intent intent = new Intent(getContext(), PetDetailsActivity.class);
+            intent.putExtra("PET_ID", "kUMrNmExFHYQPo91mvQk");
             startActivity(intent);
         });
 

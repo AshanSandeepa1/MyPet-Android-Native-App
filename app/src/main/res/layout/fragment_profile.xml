@@ -11,7 +11,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="110dp"
-        android:background="?attr/colorPrimary"
+        android:background="@color/background_dark_cream"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
         <ImageView
@@ -47,7 +47,7 @@
                 android:textAppearance="?android:textAppearanceLarge"
                 android:layout_marginBottom="8dp"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@color/white"/>
+                android:textColor="@color/black"/>
 
             <TextView
                 android:id="@+id/profile_email_textview"
@@ -57,7 +57,7 @@
                 android:textAppearance="?android:textAppearanceMedium"
                 android:layout_marginBottom="16dp"
                 android:layout_marginTop="10dp"
-                android:textColor="@android:color/white"
+                android:textColor="@android:color/black"
                 android:fontFamily="sans-serif-light" />
 
             <!-- Edit Profile Button
@@ -93,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:text="Add New Pet"
                 android:layout_marginBottom="24dp"
-                android:backgroundTint="?attr/colorPrimary"
+                android:backgroundTint="@android:color/holo_green_dark"
                 android:textColor="@android:color/white" />
 
             <!-- Logout Button -->
