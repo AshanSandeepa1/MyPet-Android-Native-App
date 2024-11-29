@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         passwordField = findViewById(R.id.editTextPassword);
         loginButton = findViewById(R.id.buttonLogin);
         createAccount = findViewById(R.id.textViewCreateAccount);
-        guestLogin = findViewById(R.id.textViewGuestLogin);
+       // guestLogin = findViewById(R.id.textViewGuestLogin); //Guest Login removed for security reasons
 
         // Login Button Logic
         loginButton.setOnClickListener(v -> {
@@ -72,11 +72,11 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         // Guest Login Logic
-        guestLogin.setOnClickListener(v -> {
-            // Navigate to Main Screen
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-        });
+//        guestLogin.setOnClickListener(v -> {
+//        // Navigate to Main Screen
+//            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//            startActivity(intent);
+//       });
     }
 
     private void loginUser(String email, String password) {

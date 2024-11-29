@@ -10,7 +10,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="110dp"
         android:background="?attr/colorPrimary"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
@@ -56,10 +56,11 @@
                 android:text="user@example.com"
                 android:textAppearance="?android:textAppearanceMedium"
                 android:layout_marginBottom="16dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@android:color/white"
                 android:fontFamily="sans-serif-light" />
 
-            <!-- Edit Profile Button -->
+            <!-- Edit Profile Button
             <Button
                 android:id="@+id/edit_profile_button"
                 android:layout_width="match_parent"
@@ -68,6 +69,7 @@
                 android:layout_marginBottom="24dp"
                 android:backgroundTint="?attr/colorAccent"
                 android:textColor="@android:color/white" />
+                -->
 
             <!-- Pet Details Section -->
             <TextView
@@ -76,6 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
+                android:layout_marginTop="20dp"
                 android:fontFamily="sans-serif-medium" />
 
             <androidx.recyclerview.widget.RecyclerView

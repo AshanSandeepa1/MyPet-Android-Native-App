@@ -61,7 +61,7 @@ public class ProfileFragment extends Fragment implements PetAdapter.OnPetClickLi
         profileNameTextView = view.findViewById(R.id.profile_name_textview);
         profileEmailTextView = view.findViewById(R.id.profile_email_textview);
         profilePictureImageView = view.findViewById(R.id.profile_picture_imageview);
-        editProfileButton = view.findViewById(R.id.edit_profile_button);
+        //editProfileButton = view.findViewById(R.id.edit_profile_button);
         addNewPetButton = view.findViewById(R.id.add_new_pet_button);
         logoutButton = view.findViewById(R.id.logout_button);
         changePasswordButton = view.findViewById(R.id.change_password_button);
@@ -78,7 +78,7 @@ public class ProfileFragment extends Fragment implements PetAdapter.OnPetClickLi
         loadUserPets();
 
         // Set button listeners
-        editProfileButton.setOnClickListener(v -> navigateToActivity(AddpetActivity.class));
+        //editProfileButton.setOnClickListener(v -> navigateToActivity(AddpetActivity.class));
         addNewPetButton.setOnClickListener(v -> navigateToActivity(AddpetActivity.class));
         logoutButton.setOnClickListener(this::logoutUser);
         changePasswordButton.setOnClickListener(this::resetPassword);

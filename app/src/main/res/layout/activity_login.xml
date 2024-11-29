@@ -77,7 +77,7 @@
         android:layout_marginTop="15dp"
         android:clickable="true"/>
 
-    <!-- Guest Login -->
+    <!-- Guest Login
     <TextView
         android:id="@+id/textViewGuestLogin"
         android:layout_width="wrap_content"
@@ -88,4 +88,5 @@
         android:textStyle="bold"
         android:layout_gravity="center"
         android:clickable="true"/>
+        -->
 </LinearLayout>
